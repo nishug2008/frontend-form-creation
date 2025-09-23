@@ -9,9 +9,17 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const userId = user?.id;
-        const res = await axios.get(`/forms/all/${userId}`);
+        const user = JSON.parse(localStorage.getItem("userInfo"));
+        // const userId = user?.id;
+        const email = user.email;
+        console.log(email);
+       const token = localStorage.getItem("Token");
+        const res = await axios.get(`/forms/all` , {
+          headers: {
+            "Authorization":`Bearer ${token}`
+          },
+        
+        });
         setForms(res.data);
       } catch (err) {
         console.error("Failed to fetch forms", err);

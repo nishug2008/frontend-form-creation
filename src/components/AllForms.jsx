@@ -10,15 +10,18 @@ function AllForms() {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const userId = user?.id;
+        const user = JSON.parse(localStorage.getItem("userInfo"));
+        // const userId = user?.id;
+      //  const userId = 1;
         const token=localStorage.getItem("Token");
-        console.log(userId);
-        // console.log("Fetching from: ", `http://localhost:8080/forms/all/${userId}`);
-        const res = (await axios.get(`http://localhost:8080/forms/all/${userId}`,{
+        // console.log(userId);
+        const email = user.email;
+        console.log(email);
+        const res = (await axios.get(`http://localhost:8080/forms/all`,{
           headers:{
             "Authorization":`Bearer ${token}`
           }
+        
         }));
         console.log("fetched form" ,res.data);
         setForms(res.data);
