@@ -1,0 +1,89 @@
+.form-box {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background-color: #fafafa;
+  position: relative;
+}
+
+.form-header {
+  margin-bottom: 30px;
+}
+
+.form-title-input {
+  width: 100%;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  background: none;
+  margin-bottom: 10px;
+}
+
+.form-description-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: none;
+  resize: none;
+  font-size: 16px;
+  color: #666;
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.question-block {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.question-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.question-row input {
+  flex: 1;
+}
+
+.question-type-selector {
+  height: 46px;
+  width: 150px;
+}
+
+.option-section {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-section input {
+  width: 50%;
+}
+
+.add-question-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #6200ea;
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
