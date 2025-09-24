@@ -55,14 +55,21 @@ import axios from "../axios/axiosInstance";
 
 function CreatedForms() {
   const [forms, setForms] = useState([]);
+  const token = localStorage.getItem("Token")
 
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const userId = user?.id;
-
-        const res = await axios.get(`http://localhost:8080/forms/user/${userId}`);
+        const user = JSON.parse(localStorage.getItem("userInfo"));
+        // const userId = user?.id;
+        const email = user.email;
+         
+        const res = await axios.get(`http://localhost:8080/forms/user`,
+          {
+         headers: {
+        "Authorization": `Bearer ${token}`,
+      }}
+        );
         setForms(res.data);
       } catch (err) {
         console.error("Error fetching forms:", err);
@@ -78,7 +85,12 @@ function CreatedForms() {
         `http://localhost:8080/forms/${formId}/responses/csv`,
         {
           responseType: "blob", // important for downloading files
-        }
+           headers: {
+          Authorization: `Bearer ${token}`, // add your JWT token here
+          // any other headers if needed
+        },
+        },
+       
       );
 
       // Create a URL for the blob and trigger download

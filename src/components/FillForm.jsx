@@ -8,14 +8,22 @@ const FillForm = () => {
   const { formId } = useParams();
   const [ form, setForm ] = useState(null);
   const [answers, setAnswers] = useState({});
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("userInfo"));
   const userId = user?.id;
+  const email = user.email;
+  const token = localStorage.getItem("Token");
 
   useEffect(() => {
     const fetchForm = async () => {
       try {
         //form
-        const res = await axios.get(`http://localhost:8080/forms/${formId}`);
+        const res = await axios.get(`http://localhost:8080/forms/${formId}`, {
+         headers: {
+        "Authorization": `Bearer ${token}`,
+        // "Content-Type": "application/json"
+      }
+    }
+        );
         setForm(res.data);
       } catch (err) {
         console.error("Error fetching form", err);
@@ -32,12 +40,18 @@ const FillForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(userId || "no user ID");
-    console.log(localStorage.getItem("user"));
+    console.log(localStorage.getItem("userInfo"));
+
     console.log("+++++++++++++++++++" ,answers || "Not found");
     try {
+      console.log(token);
       await axios.post(
-        `http://localhost:8080/responses/submit/${formId}/${userId}`,
-        answers
+        `http://localhost:8080/responses/submit/${formId}`, answers, {
+         headers: {
+        "Authorization": `Bearer ${token}`,
+        // "Content-Type": "application/json"
+      }}
+
       );
 
       navigate("/all-forms")

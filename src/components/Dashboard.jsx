@@ -6,6 +6,7 @@ function Dashboard() {
   const [createdForms, setCreatedForms] = useState([]);
   const [submittedResponses, setSubmittedResponses] = useState([]);
   const [allForms, setAllForms] = useState([]);
+  const token = localStorage.getItem("Token");
 
   const userId = 1;
 
@@ -16,13 +17,26 @@ function Dashboard() {
   }, []);
 
   const fetchCreatedForms = async () => {
-    const res = await axios.get(`http://localhost:8080/forms/user/${userId}`);
+    const res = await axios.get(`http://localhost:8080/forms/user`, {
+         headers: {
+        "Authorization": `Bearer ${token}`,
+      }}
+      
+    );
     setCreatedForms(res.data);
   };
 
   const fetchSubmittedResponses = async () => {
-    const res = await axios.get(`http://localhost:8080/forms/responses/user/${userId}`);
+    const res = await axios.get(`http://localhost:8080/responses/user`,
+      {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        }
+      }
+    );
+    console.log(res.data);
     setSubmittedResponses(res.data);
+    console.log(submittedResponses);
   };
 
   const fetchAllForms = async () => {

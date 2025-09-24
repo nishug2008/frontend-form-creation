@@ -32,10 +32,16 @@ function DragDropFormBuilder() {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [showPermission, setShowPermission] = useState(false);
   const navigate = useNavigate();
+  const token = localStorage.getItem("Token")
 
   useEffect(() => {
     // Fetch user list for permissions
-     axios.get("http://localhost:8080/users/all")
+     axios.get(`http://localhost:8080/users/all`,{
+      headers: {
+      "Authorization" : `Bearer ${token}`
+      },
+      
+  })
       .then((res) => {
         setAllUsers(res.data);
         console.log(allUsers);
@@ -105,10 +111,19 @@ function DragDropFormBuilder() {
     };
 
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      const userId = user?.id;
+      const user = JSON.parse(localStorage.getItem("userInfo"));
+      // const userId = user?.id;
+      const email = user.email;
       console.log(formData);
-      const response = await axios.post(`http://localhost:8080/forms/create/${userId}`, formData);
+      const response = await axios.post(`http://localhost:8080/forms/create/${email}`, 
+        formData,
+        {
+         headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    }
+      );
       if (response.status === 200) {
         alert("Form submitted successfully!");
         navigate("/all-forms");
@@ -127,6 +142,7 @@ function DragDropFormBuilder() {
         <ToolboxItem type="text" label="Text Input" />
         <ToolboxItem type="checkbox" label="Checkbox" />
         <ToolboxItem type="dropdown" label="Dropdown" />
+        <ToolboxItem type="radio" label="Radio" />
       </div>
 
       {/* Form Canvas */}
@@ -160,9 +176,10 @@ function DragDropFormBuilder() {
               <option value="text">Text</option>
               <option value="checkbox">Checkbox</option>
               <option value="dropdown">Dropdown</option>
+              <option value="radio">Radio</option>
             </select>
 
-            {(q.type === "checkbox" || q.type === "dropdown") && (
+            {(q.type === "checkbox" || q.type === "dropdown" || q.type === "radio") && (
               <div className="option-section">
                 <label>Options:</label>
                 {q.options.map((opt, oIndex) => (
