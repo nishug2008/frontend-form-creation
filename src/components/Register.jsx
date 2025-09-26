@@ -89,6 +89,7 @@ function Register() {
             }
             }
             maxLength={15}
+            minLength={3}
             required
           />
 
@@ -112,6 +113,7 @@ function Register() {
             }}
           
             maxLength={15}
+            minLength={3}
             required
           />
 

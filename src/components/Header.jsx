@@ -21,15 +21,9 @@ const Header = () => {
       </h1>
 
       <div className="flex gap-6 items-center">
-        {/* <button
-          onClick={() => navigate("/dragdrop-form")}
-          className="hover:underline"
-        >
-          Create Form
-        </button> */}
 
         <button
-          onClick={() => navigate("/my-responses")}
+          onClick={() => navigate("/dashboard")}
           className="hover:underline"
         >
           My Responses
