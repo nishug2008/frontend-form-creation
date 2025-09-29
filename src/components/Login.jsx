@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Toaster from "../toast/Toaster";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,9 +42,10 @@ const Login = () => {
       }
     } catch (error) {
       console.log("Error in login");
+      Toaster.error("Failed to Login");
       setEmail("");
       setPassword("");
-      alert("Failed to Login ");
+      // alert("Failed to Login ");
     }
   };
 

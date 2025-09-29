@@ -60,6 +60,10 @@ const FillForm = () => {
   });
 };
 
+const handleClear = () =>{
+  setAnswers({});
+}
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,6 +110,7 @@ const FillForm = () => {
                 <input
                   type="text"
                   className="w-full border rounded px-3 py-2"
+                  value={answers[question.questionId] || ""}
                   onChange={(e) =>
                     handleChange(question.questionId, e.target.value)
                   }
@@ -114,6 +119,7 @@ const FillForm = () => {
               ) : question.type === "dropdown" ? (
                 <select
                   className="w-full border rounded px-3 py-2"
+                  value={answers[question.questionId] || ""}
                   onChange={(e) =>
                     handleChange(question.questionId, e.target.value)
                   }
@@ -140,6 +146,11 @@ const FillForm = () => {
                       type={question.type}
                       name={`q-${question.questionId}`}
                       value={opt.value}
+                      checked={   // ✨ controlled
+                      (answers[question.questionId] || "")
+                        .split(",")
+                        .includes(opt.value)
+                      }
                       onChange={(e) =>
                         handleCheckboxChange(question.questionId, e.target.value)
                       }
@@ -159,6 +170,7 @@ const FillForm = () => {
                       type={question.type}
                       name={`q-${question.questionId}`}
                       value={opt.value}
+                       checked={answers[question.questionId] === opt.value}
                       onChange={(e) =>
                         handleChange(question.questionId, e.target.value)
                       }
@@ -177,6 +189,15 @@ const FillForm = () => {
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             Submit
+          </button>
+
+
+          <button
+            type="button"
+            onClick={handleClear}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >  
+          Clear
           </button>
         </form>
       </div>
