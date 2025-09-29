@@ -13,7 +13,7 @@ const Toaster = {
   error: (message) => {
     toast.error(message, {
       position: "top-right",
-      autoClose: 1000,
+      autoClose: 7000,
       pauseOnHover: true,
       draggable: true,
     });

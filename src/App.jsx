@@ -11,6 +11,7 @@ import Dashboard from "./components/Dashboard";
 import CreatedForms from "./components/CreatedForms";
 import DragDropFormBuilder from "./components/DragDropFormBuilder";
 import AdminDashboard from "./components/AdminDashboard";
+import ModalExample from "./modal_popup/Modal";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/created-forms" element={<CreatedForms />} />
             <Route path="/dragdrop-form" element={<DragDropFormBuilder />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/modal-popup" element={<ModalExample />} />
           
           </Routes>
         </DndProvider>

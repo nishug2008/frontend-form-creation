@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Toaster from "../toast/Toaster";
-import { toast } from "react-toastify";
+import Modal from "../modal_popup/Modal"; // adjust path
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,11 +43,14 @@ const Login = () => {
           navigate("/all-forms"); 
         }
       }
+      Toaster.success("Failed to Login");
+
     } catch (error) {
       console.log("Error in login");
-      Toaster.error("Failed to Login");
       setEmail("");
       setPassword("");
+      setModalMessage("Login failed. Please check your credentials.");
+      setIsOpen(true);
       // alert("Failed to Login ");
     }
   };
@@ -112,7 +118,16 @@ const Login = () => {
           </p>
         </div>
       </div>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        message={modalMessage}
+      />
     </div>
+
+
+
   );
 };
 

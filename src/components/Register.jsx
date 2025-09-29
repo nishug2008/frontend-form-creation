@@ -3,35 +3,32 @@ import axios from "axios";
 import "./RegisterStyle.css";
 import { useNavigate } from "react-router-dom";
 
-
-
 function Register() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
-  const [repassword, setRepassword] = useState(""); 
+  const [repassword, setRepassword] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
 
-   const handleEmailChange = (e) => {
-      const value = e.target.value;
-      setEmail(value);
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
 
-      if(!value.endsWith("@gmail.com")){
-        setEmailError("Email must end with @gmail.com");
-      }
-      else{
-        setEmailError("")
-      }
-    };
+    if (!value.endsWith("@gmail.com")) {
+      setEmailError("Email must end with @gmail.com");
+    } else {
+      setEmailError("");
+    }
+  };
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-     if (firstNameError || lastNameError || emailError) {
+    if (firstNameError || lastNameError || emailError) {
       alert("Please fix all errors before submitting");
       return;
     }
@@ -46,16 +43,17 @@ function Register() {
       lastName: lastName,
       email: email,
       password: password,
-      role:"CONSUMER"
+      role: "CONSUMER",
     };
 
-   
-
     try {
-      const response = await axios.post(`http://localhost:8080/users/register`, formData);
+      const response = await axios.post(
+        `http://localhost:8080/users/register`,
+        formData
+      );
       if (response.status === 200) {
         alert("User is registered");
-        navigate("/login")
+        navigate("/login");
         console.log(response.data);
       }
     } catch (error) {
@@ -77,21 +75,23 @@ function Register() {
             value={firstName}
             onChange={(e) => {
               const value = e.target.value;
+              setFirstName(value); // always allow typing
 
-              if(/^[a-zA-Z]*$/.test(value) && value.length <= 15){
-
-                setFirstName(e.target.value)
-                setFirstNameError("");
+              if (!/^[a-zA-Z]*$/.test(value)) {
+                setFirstNameError("Only letters allowed");
+              } else if (value.length > 15) {
+                setFirstNameError("Max 15 characters allowed");
+              } else if (value.length < 3) {
+                setFirstNameError("Minimum 3 characters required");
+              } else {
+                setFirstNameError(""); // valid input
               }
-              else{
-                setFirstNameError("Only letters allowed, max 15 characters");
-              }
-            }
-            }
+            }}
             maxLength={15}
-            minLength={3}
             required
           />
+
+          {firstNameError && <p style={{ color: "red" }}>{firstNameError}</p>}
 
           <label htmlFor="lastName">LastName:</label>
           <input
@@ -101,21 +101,23 @@ function Register() {
             value={lastName}
             onChange={(e) => {
               const value = e.target.value;
+              setLastName(value); // ✅ use setLastName here
 
-              if(/^[a-zA-Z]*$/.test(value) && value.length <= 15){
-
-                setLastName(e.target.value)
-                setLastNameError("");
-              }
-              else{
-                setLastNameError("Only letters allowed, max 15 characters");
+              if (!/^[a-zA-Z]*$/.test(value)) {
+                setLastNameError("Only letters allowed");
+              } else if (value.length > 15) {
+                setLastNameError("Max 15 characters allowed");
+              } else if (value.length < 3) {
+                setLastNameError("Minimum 3 characters required");
+              } else {
+                setLastNameError(""); // valid input
               }
             }}
-          
             maxLength={15}
             minLength={3}
             required
           />
+          {lastNameError && <p style={{ color: "red" }}>{lastNameError}</p>}
 
           <label htmlFor="email">Email:</label>
           <input
