@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import "./RegisterStyle.css";
 import { useNavigate } from "react-router-dom";
+import Modal from "../modal_popup/Modal"; 
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -13,6 +14,8 @@ function Register() {
   const [lastNameError, setLastNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
 
   const handleEmailChange = (e) => {
     const value = e.target.value;
@@ -34,7 +37,9 @@ function Register() {
     }
 
     if (password !== repassword) {
-      alert("Passwords do not match");
+      // alert("Passwords do not match");
+      setModalMessage("Password do not match");
+      setIsOpen(true);
       return;
     }
 
@@ -171,6 +176,12 @@ function Register() {
           </p>
         </form>
       </div>
+
+       <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        message={modalMessage}
+      />
     </>
   );
 }
