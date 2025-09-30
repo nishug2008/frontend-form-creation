@@ -15,7 +15,8 @@ function Register() {
   const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-    const [modalMessage, setModalMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [title,setTitle] = useState("")
 
   const handleEmailChange = (e) => {
     const value = e.target.value;
@@ -39,6 +40,7 @@ function Register() {
     if (password !== repassword) {
       // alert("Passwords do not match");
       setModalMessage("Password do not match");
+      setTitle("Sign up failed");
       setIsOpen(true);
       return;
     }
@@ -181,6 +183,7 @@ function Register() {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         message={modalMessage}
+        title={title}
       />
     </>
   );

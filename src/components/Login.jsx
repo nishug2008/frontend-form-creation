@@ -10,6 +10,8 @@ const Login = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [title,setTitle] = useState("")
+
 
 
   const handleSubmit = async (e) => {
@@ -50,6 +52,7 @@ const Login = () => {
       setEmail("");
       setPassword("");
       setModalMessage("Login failed. Please check your credentials.");
+      setTitle("Login Failed")
       setIsOpen(true);
       // alert("Failed to Login ");
     }
@@ -123,6 +126,7 @@ const Login = () => {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         message={modalMessage}
+        title={title}
       />
     </div>
 
