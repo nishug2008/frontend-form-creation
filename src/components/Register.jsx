@@ -1,8 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import "./RegisterStyle.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
-import Modal from "../modal_popup/Modal"; 
+import Modal from "../modal_popup/Modal";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -16,7 +18,9 @@ function Register() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [title,setTitle] = useState("")
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState(null);
+  const [dateError,setDateError] = useState("")
 
   const handleEmailChange = (e) => {
     const value = e.target.value;
@@ -32,7 +36,7 @@ function Register() {
   const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    if (firstNameError || lastNameError || emailError) {
+    if (firstNameError || lastNameError || emailError || dateError) {
       alert("Please fix all errors before submitting");
       return;
     }
@@ -67,6 +71,24 @@ function Register() {
       console.log("Error submitting form: ", error);
       alert("Failed to submit Form");
     }
+  };
+
+  const handleDateOfBirth = async (selectedDate) => {
+    if (!selectedDate) return;
+
+    const today = new Date();
+    let age = today.getFullYear() - selectedDate.getFullYear();
+    const m = today.getMonth() - selectedDate.getMonth();
+
+    if (age < 18) {
+      setDateError("Age must be greater than 18");
+      setDate(null);
+    } else {
+      setDate(selectedDate);
+      setDateError("")
+    }
+
+    console.log(age);
   };
 
   return (
@@ -162,6 +184,21 @@ function Register() {
             required
           />
 
+          <label htmlFor="date">Birth Date:</label>
+          <DatePicker
+            selected={date}
+            onChange={(selectedDate) => handleDateOfBirth(selectedDate)}
+            dateFormat="dd/MM/yyyy"
+            maxDate={new Date()} // no future DOB
+            minDate={new Date(1900, 0, 1)} // allow DOB from 1900
+            showYearDropdown
+            scrollableYearDropdown
+            yearDropdownItemNumber={100} // shows 120 years in dropdown
+            placeholderText="Select DOB"
+          />
+
+           {dateError && <p style={{ color: "red" }}>{dateError}</p>}
+
           <button type="submit">Sign up</button>
 
           <p className="text-gray-600">
@@ -179,7 +216,7 @@ function Register() {
         </form>
       </div>
 
-       <Modal
+      <Modal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         message={modalMessage}
